@@ -27,20 +27,25 @@ describe('flattenArr', () => {
 
 describe('dataFetcher', () => {
   it('handles a successful response', async () => {
+    expect.assertions(2);
     axios.get.mockImplementation(() => Promise.resolve({ data: { users: [] } }));
-
+    //1
     const data = await dataFetcher();
-
     expect(data).toEqual({ data: { users: [] } });
+    //2
+    await expect(dataFetcher()).resolves.toEqual({ data: { users: [] } });
   });
 
   it('handles an error response', async () => {
+    expect.assertions(2);
     axios.get.mockImplementation(() => Promise.reject('Boom'));
-
+    //1
+    await expect(dataFetcher()).rejects.toThrowError('Boom');
+    //2
     try {
       await dataFetcher();
     } catch (e) {
-      expect(e).toEqual(new Error({ error: 'Boom', message: 'An Error Occurred' }));
+      expect(e).toEqual(new Error('Boom'));
     }
   });
 });

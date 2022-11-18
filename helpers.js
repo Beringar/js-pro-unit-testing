@@ -32,7 +32,7 @@ const dataFetcher = async () => {
     const data = await axios.get('https://jsonplaceholder.typicode.com/users');
     return data;
   } catch (e) {
-    throw new Error({ error: e, message: 'An Error Occurred' });
+    throw new Error(e);
   }
 };
 
